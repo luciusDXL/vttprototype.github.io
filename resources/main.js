@@ -25,8 +25,7 @@ precision highp float;
 out vec4 outColor;
 
 void main() {
-  // Just set the output to a constant redish-purple
-  outColor = vec4(1, 0, 0.5, 1);
+  outColor = vec4(1, 1, 0.5, 1);
 }
 `;
 
@@ -129,5 +128,3 @@ function main() {
   var count = 3;
   gl.drawArrays(primitiveType, offset, count);
 }
-
-main();
