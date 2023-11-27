@@ -53,7 +53,7 @@ function canvas_update() {
   	
   // Test
   tile_clearQuads();
-  tile_addQuad((tokenPos[0]) * 100.0, (tokenPos[1])*100.0, (tokenPos[0]+1.0)*100.0, (tokenPos[1]+1.0)*100.0, 1.0, 0.0, 0.0, 1.0, m_testToken);
+  tile_addQuad((tokenPos[0]) * 100.0, (tokenPos[1])*100.0, (tokenPos[0]+1.0)*100.0, (tokenPos[1]+1.0)*100.0, 1.0, 1.0, 1.0, 1.0, m_testToken);
   tile_updateQuadBuffer();
 	    
   // Clear the canvas
@@ -107,7 +107,6 @@ function canvas_create() {
     return;
   }
   m_viewportSize = [m_glContext.canvas.width, m_glContext.canvas.height];
-  
   m_testToken = getTexture(m_glContext, "assets/tokens/Tavros_Token_v1.png");
 
   // Layers	  

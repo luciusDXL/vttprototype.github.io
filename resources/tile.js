@@ -100,6 +100,10 @@ function tile_updateQuadBuffer()
 
 function tile_quadDraw()
 {
+  // Blending
+  m_glContext.enable(m_glContext.BLEND);
+  m_glContext.blendFunc(m_glContext.SRC_ALPHA, m_glContext.ONE_MINUS_SRC_ALPHA);
+	
 	// Tell it to use our program (pair of shaders)
   m_glContext.useProgram(m_program);
 
@@ -121,6 +125,8 @@ function tile_quadDraw()
   // draw
   var count = m_quadCount * 6;
   m_glContext.drawArrays(m_glContext.TRIANGLES, 0/*offset*/, count);
+  
+  m_glContext.disable(m_glContext.BLEND);
 }
 
 function tile_create(glContext) {
@@ -132,7 +138,7 @@ function tile_create(glContext) {
 
   // Link the two shaders into a program
   m_program = createProgram(m_glContext, vertexShader, fragmentShader);
-   m_glContext.useProgram(m_program);
+  m_glContext.useProgram(m_program);
   
   // Lookup the shader variables.
   m_shaderVar_offsetScale = m_glContext.getUniformLocation(m_program, "offsetScale");
