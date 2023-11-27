@@ -77,7 +77,7 @@ function tile_setVertex(vtxIndex, x, y, r, g, b, a, u, v)
 function tile_addQuad(x0, y0, x1, y1, r, g, b, a, texture)
 {
 	var index = m_quadCount * 6;
-	m_quadTex[0] = texture;
+	m_quadTex[m_quadCount] = texture;
 	m_quadCount++;
 	
 	tile_setVertex(index + 0, x0, y0, r, g, b, a, 0.0, 0.0);
