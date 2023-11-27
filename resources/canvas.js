@@ -24,17 +24,19 @@ function canvas_updateViewport() {
   m_viewportSize = [m_glContext.canvas.width, m_glContext.canvas.height];
 }
 
-var tokenPos = [0.0, 0.0];
+var tokenPos0 = [0.0, 0.0];
+var tokenPos1 = [3.0, 3.0];
 var prevRightPos = [0.0, 0.0];
-var m_testToken;
+var m_testToken0;
+var m_testToken1;
 
 function canvas_update() {
   canvas_updateViewport();
   
   if (m_mouseClick[MouseButton.Left])
   {
-	  tokenPos[0] = Math.floor((m_mousePos[0] - m_viewportPos[0]) / 100.0);
-	  tokenPos[1] = Math.floor((m_mousePos[1] - m_viewportPos[1]) / 100.0);
+	  tokenPos0[0] = Math.floor((m_mousePos[0] - m_viewportPos[0]) / 100.0);
+	  tokenPos0[1] = Math.floor((m_mousePos[1] - m_viewportPos[1]) / 100.0);
   }
   if (m_mouseDown[MouseButton.Right])
   {
@@ -53,7 +55,8 @@ function canvas_update() {
   	
   // Test
   tile_clearQuads();
-  tile_addQuad((tokenPos[0]) * 100.0, (tokenPos[1])*100.0, (tokenPos[0]+1.0)*100.0, (tokenPos[1]+1.0)*100.0, 1.0, 1.0, 1.0, 1.0, m_testToken);
+  tile_addQuad((tokenPos0[0]) * 100.0, (tokenPos0[1])*100.0, (tokenPos0[0]+1.0)*100.0, (tokenPos0[1]+1.0)*100.0, 1.0, 1.0, 1.0, 1.0, m_testToken0);
+  tile_addQuad((tokenPos1[0]) * 100.0, (tokenPos1[1])*100.0, (tokenPos1[0]+1.0)*100.0, (tokenPos1[1]+1.0)*100.0, 1.0, 1.0, 1.0, 1.0, m_testToken1);
   tile_updateQuadBuffer();
 	    
   // Clear the canvas
@@ -107,8 +110,9 @@ function canvas_create() {
     return;
   }
   m_viewportSize = [m_glContext.canvas.width, m_glContext.canvas.height];
-  m_testToken = getTexture(m_glContext, "assets/tokens/Tavros_Token_v1.png");
-
+  m_testToken0 = getTexture(m_glContext, "assets/tokens/Tavros_Token_v1.png");
+  m_testToken1 = getTexture(m_glContext, "assets/tokens/Psyclonnen Reborn Token Small.png");
+  
   // Layers	  
   canvas_createLayers();
   

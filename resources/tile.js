@@ -54,7 +54,7 @@ var m_positionBuffer;
 var m_quadCount = 0;
 var m_quadVtxStride = 8;
 var m_quad = new Float32Array(1024 * m_quadVtxStride * 6);
-var m_quadTex;
+var m_quadTex = new Array(1024);
 
 function tile_clearQuads()
 {
@@ -77,6 +77,7 @@ function tile_setVertex(vtxIndex, x, y, r, g, b, a, u, v)
 function tile_addQuad(x0, y0, x1, y1, r, g, b, a, texture)
 {
 	var index = m_quadCount * 6;
+	m_quadTex[0] = texture;
 	m_quadCount++;
 	
 	tile_setVertex(index + 0, x0, y0, r, g, b, a, 0.0, 0.0);
@@ -86,8 +87,6 @@ function tile_addQuad(x0, y0, x1, y1, r, g, b, a, texture)
 	tile_setVertex(index + 3, x0, y0, r, g, b, a, 0.0, 0.0);
 	tile_setVertex(index + 4, x1, y1, r, g, b, a, 1.0, 1.0);
 	tile_setVertex(index + 5, x0, y1, r, g, b, a, 0.0, 1.0);
-	
-	m_quadTex = texture;
 }
 
 function tile_updateQuadBuffer()
@@ -119,13 +118,14 @@ function tile_quadDraw()
   // Bind the attribute/buffer set we want.
   m_glContext.bindVertexArray(m_vao);
   
-  // For now just bind a single texture.
-  
+  for (let i = 0; i < m_quadCount; i++)
+  {
+	  m_glContext.activeTexture(m_glContext.TEXTURE0);
+	  m_glContext.bindTexture(m_glContext.TEXTURE_2D, m_quadTex[i]);
 
-  // draw
-  var count = m_quadCount * 6;
-  m_glContext.drawArrays(m_glContext.TRIANGLES, 0/*offset*/, count);
-  
+	  // draw
+	  m_glContext.drawArrays(m_glContext.TRIANGLES, 6 * i/*offset*/, 6);
+  }
   m_glContext.disable(m_glContext.BLEND);
 }
 

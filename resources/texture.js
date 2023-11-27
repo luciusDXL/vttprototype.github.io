@@ -34,6 +34,10 @@ function createTexture(glContext, path) {
 		glContext.bindTexture(glContext.TEXTURE_2D, texture);
 		glContext.texImage2D(glContext.TEXTURE_2D, 0, glContext.RGBA, glContext.RGBA, glContext.UNSIGNED_BYTE, image);
 		glContext.generateMipmap(glContext.TEXTURE_2D);
+		
+		glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_WRAP_S, glContext.CLAMP_TO_EDGE);
+		glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_WRAP_T, glContext.CLAMP_TO_EDGE);
+		glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_MIN_FILTER, glContext.LINEAR);
 	});
 	
 	return texture;
