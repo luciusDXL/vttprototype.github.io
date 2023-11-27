@@ -111,29 +111,15 @@ function canvas_addQuad(x0, y0, x1, y1, r, g, b, a)
 
 function canvas_updateQuadBuffer()
 {
+	var floatsPerQuad = 6/*vtxPerQuad*/ * m_quadVtxStride/*floatsPerVertex*/;
+	
 	m_glContext.bindBuffer(m_glContext.ARRAY_BUFFER, m_positionBuffer);
-	m_glContext.bufferSubData(m_glContext.ARRAY_BUFFER, 0, m_quad, 0, m_quadCount * 12 * 4);
+	m_glContext.bufferSubData(m_glContext.ARRAY_BUFFER, 0, m_quad, 0, m_quadCount * floatsPerQuad);
 }
 
-function canvas_update() {
-  // Test
-  canvas_clearQuads();
-  canvas_addQuad(0, 0, 255, 255, 1.0, 0.0, 0.0, 1.0);
-  canvas_addQuad(256, 256, 511, 511, 0.0, 1.0, 0.0, 1.0);
-  canvas_addQuad(512, 512, 767, 767, 0.0, 0.0, 1.0, 1.0);
-  canvas_updateQuadBuffer();
-	
-  webglUtils.resizeCanvasToDisplaySize(m_glContext.canvas);
-
-  // Tell WebGL how to convert from clip space to pixels
-  m_glContext.viewport(0, 0, m_glContext.canvas.width, m_glContext.canvas.height);
-  m_viewportSize = [m_glContext.canvas.width, m_glContext.canvas.height];
-  
-  // Clear the canvas
-  m_glContext.clearColor(0, 0, 0, 0);
-  m_glContext.clear(m_glContext.COLOR_BUFFER_BIT);
-
-  // Tell it to use our program (pair of shaders)
+function canvas_quadDraw()
+{
+	// Tell it to use our program (pair of shaders)
   m_glContext.useProgram(m_program);
 
   m_offsetScale[0] = -1.0;  
@@ -146,10 +132,35 @@ function canvas_update() {
   m_glContext.bindVertexArray(m_vao);
 
   // draw
-  var primitiveType = m_glContext.TRIANGLES;
-  var offset = 0;
   var count = m_quadCount * 6;
-  m_glContext.drawArrays(primitiveType, offset, count);
+  m_glContext.drawArrays(m_glContext.TRIANGLES, 0/*offset*/, count);
+}
+
+function canvas_updateViewport() {
+  // Resize the canvas to the webpage.
+  webglUtils.resizeCanvasToDisplaySize(m_glContext.canvas);
+
+  // Setup the viewport based on the canvas size.
+  m_glContext.viewport(0, 0, m_glContext.canvas.width, m_glContext.canvas.height);
+  m_viewportSize = [m_glContext.canvas.width, m_glContext.canvas.height];
+}
+
+function canvas_update() {
+  canvas_updateViewport();
+	
+  // Test
+  canvas_clearQuads();
+  canvas_addQuad(0, 0, 255, 255, 1.0, 0.0, 0.0, 1.0);
+  canvas_addQuad(256, 256, 511, 511, 0.0, 1.0, 0.0, 1.0);
+  canvas_addQuad(512, 512, 767, 767, 0.0, 0.0, 1.0, 1.0);
+  canvas_updateQuadBuffer();
+	    
+  // Clear the canvas
+  m_glContext.clearColor(0, 0, 0, 0);
+  m_glContext.clear(m_glContext.COLOR_BUFFER_BIT);
+
+  // Draw the quads.
+  canvas_quadDraw();
   
   // Keep updating...
   requestAnimationFrame(canvas_update);
@@ -174,7 +185,7 @@ function canvas_create() {
   // Lookup the shader variables.
   m_shaderVar_offsetScale = m_glContext.getUniformLocation(m_program, "offsetScale");
   
-  // look up where the vertex data needs to go.
+  // Look up where the vertex data needs to go.
   var positionAttributeLocation = m_glContext.getAttribLocation(m_program, "a_position");
   var colorAttributeLocation = m_glContext.getAttribLocation(m_program, "a_color");
 
@@ -183,13 +194,10 @@ function canvas_create() {
 
   // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
   m_glContext.bindBuffer(m_glContext.ARRAY_BUFFER, m_positionBuffer);
-
   m_glContext.bufferData(m_glContext.ARRAY_BUFFER, m_quad, m_glContext.DYNAMIC_DRAW);
 
   // Create a vertex array object (attribute state)
   m_vao = m_glContext.createVertexArray();
-
-  // and make it the one we're currently working with
   m_glContext.bindVertexArray(m_vao);
 
   // Turn on the attribute
@@ -197,7 +205,7 @@ function canvas_create() {
   m_glContext.enableVertexAttribArray(colorAttributeLocation);
 
   // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-  var stride = 6 * 4;        // 6 * sizeof(float)
+  var stride = m_quadVtxStride * 4;        // floatsPerVertex * sizeof(float)
   m_glContext.vertexAttribPointer(
       positionAttributeLocation, 2/*size*/, m_glContext.FLOAT, false/*normalize*/, stride, 0/*offset*/);
 	  
