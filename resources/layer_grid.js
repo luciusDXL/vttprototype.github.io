@@ -122,7 +122,7 @@ function layerGrid_update(x, y) {
 
 // columns  
   const gy0 = 0;
-  const gy1 = 2100;
+  const gy1 = m_canvasSize[1];
   for (let i = 0; i < 28; i++)
   {
 	  var gx = i * gridSize;
@@ -130,7 +130,7 @@ function layerGrid_update(x, y) {
   }
   // rows
   const gx0 = 0;
-  const gx1 = 2800;
+  const gx1 = m_canvasSize[0];
   for (let i = 0; i < 21; i++)
   {
 	  var gy = i * gridSize;

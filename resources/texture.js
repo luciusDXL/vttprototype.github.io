@@ -22,8 +22,8 @@ function createTexture(glContext, path) {
 	var texture = glContext.createTexture();
 	glContext.bindTexture(glContext.TEXTURE_2D, texture);
 
-	// Fill the texture with a 1x1 blue pixel.
-	glContext.texImage2D(glContext.TEXTURE_2D, 0, glContext.RGBA, 1, 1, 0, glContext.RGBA, glContext.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255]));
+	// Fill the texture with a 1x1 black pixel.
+	glContext.texImage2D(glContext.TEXTURE_2D, 0, glContext.RGBA, 1, 1, 0, glContext.RGBA, glContext.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
 	
 	// Asynchronously load an image
 	var image = new Image();

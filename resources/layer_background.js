@@ -9,5 +9,5 @@ function layerBackground_loadImage(glContext, path)
 
 function layerBackground_update()
 {
-	tile_addQuad(0, 0, 2800, 2100, 1.0, 1.0, 1.0, 1.0, m_backgroundImage);
+	tile_addQuad(0, 0, m_canvasSize[0], m_canvasSize[1], 1.0, 1.0, 1.0, 1.0, m_backgroundImage);
 }
