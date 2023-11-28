@@ -52,18 +52,21 @@ function canvas_update() {
 	  prevRightPos[0] = m_mousePos[0];
 	  prevRightPos[1] = m_mousePos[1];
   }
+  tile_clearQuads();
+  
+  // Draw the background.
+  layerBackground_update();
   	
   // Test
-  tile_clearQuads();
   tile_addQuad((tokenPos0[0]) * 100.0, (tokenPos0[1])*100.0, (tokenPos0[0]+1.0)*100.0, (tokenPos0[1]+1.0)*100.0, 1.0, 1.0, 1.0, 1.0, m_testToken0);
   tile_addQuad((tokenPos1[0]) * 100.0, (tokenPos1[1])*100.0, (tokenPos1[0]+1.0)*100.0, (tokenPos1[1]+1.0)*100.0, 1.0, 1.0, 1.0, 1.0, m_testToken1);
-  tile_updateQuadBuffer();
-	    
+  	    
   // Clear the canvas
   m_glContext.clearColor(0.5, 0.5, 0.5, 1.0);
   m_glContext.clear(m_glContext.COLOR_BUFFER_BIT);
-
+    
   // Draw the quads.
+  tile_updateQuadBuffer();
   tile_quadDraw();
   
   // Draw layers.
@@ -80,6 +83,7 @@ function canvas_update() {
 function canvas_createLayers() {
   tile_create(m_glContext);
   layerGrid_create(m_glContext);
+  layerBackground_loadImage(m_glContext, "assets/maps/JungleEncounterCave.jpg");
 }
 
 function onMouseMove(e) {

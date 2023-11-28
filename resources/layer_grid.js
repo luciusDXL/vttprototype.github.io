@@ -122,16 +122,16 @@ function layerGrid_update(x, y) {
 
 // columns  
   const gy0 = 0;
-  const gy1 = m_viewportSize[1] - 1;
-  for (let i = 0; i < 20; i++)
+  const gy1 = 2100;
+  for (let i = 0; i < 28; i++)
   {
 	  var gx = i * gridSize;
 	  layerGrid_addLine(gx, gy0, gx, gy1);
   }
   // rows
   const gx0 = 0;
-  const gx1 = m_viewportSize[0] - 1;
-  for (let i = 0; i < 11; i++)
+  const gx1 = 2800;
+  for (let i = 0; i < 21; i++)
   {
 	  var gy = i * gridSize;
 	  layerGrid_addLine(gx0, gy, gx1, gy);
